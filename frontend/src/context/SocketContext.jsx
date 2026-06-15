@@ -11,7 +11,8 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (token && user) {
-      const newSocket = io('http://localhost:5005', {
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5005';
+      const newSocket = io(baseUrl, {
         query: { token },
         transports: ['websocket'],
       });
