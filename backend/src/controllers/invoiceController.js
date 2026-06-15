@@ -8,9 +8,9 @@ const { getIO } = require('../utils/socket');
 
 const generateVietQR = (bankInfo, amount, description) => {
   const { bankId, accountNo, accountName } = bankInfo || {
-    bankId: 'MB',
-    accountNo: '0987654321',
-    accountName: 'NGUYEN VAN CHU TRO'
+    bankId: 'TPB',
+    accountNo: '00000907532',
+    accountName: 'TRAN TAN PHAT'
   };
   
   return `https://img.vietqr.io/image/${bankId}-${accountNo}-compact.png?amount=${amount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(accountName)}`;
