@@ -1,0 +1,25 @@
+{
+  "name": "Hệ thống Quản lý Nhà trọ",
+  "short_name": "QL Nhà Trọ",
+  "description": "Ứng dụng quản lý phòng trọ, hóa đơn và chat real-time với chủ nhà",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#1677ff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
