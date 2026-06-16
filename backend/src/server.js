@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const roomRoutes = require('./routes/roomRoutes');
@@ -36,6 +37,7 @@ initSocket(server);
 // Middleware
 app.use(helmet());
 app.use(cors());
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(express.json());
 

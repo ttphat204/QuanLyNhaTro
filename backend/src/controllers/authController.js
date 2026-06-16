@@ -73,16 +73,27 @@ exports.getMe = async (req, res, next) => {
   }
 };
 
-// Get token from model, create cookie and send response
+// Get tokens from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
-  // Create token
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: '30d'
+  // Create access token (short-lived)
+  const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.ACCESS_TOKEN_EXPIRES || '15m'
   });
-
+  // Create refresh token (long-lived)
+  const refreshToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRES || '7d'
+  });
+  // Set refresh token as HttpOnly cookie
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: process.env.COOKIE_SECURE === 'true',
+    sameSite: 'Strict',
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days in ms (matches default)
+  });
+  // Return access token in body
   res.status(statusCode).json({
     success: true,
-    token,
+    token: accessToken,
     user: {
       id: user._id,
       fullName: user.fullName,
@@ -91,4 +102,8 @@ const sendTokenResponse = (user, statusCode, res) => {
       avatar: user.avatar
     }
   });
+};
+exports.logout = (req, res) => {
+  res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'Strict', secure: process.env.COOKIE_SECURE === 'true' });
+  res.status(200).json({ success: true, message: 'Logged out successfully' });
 };
